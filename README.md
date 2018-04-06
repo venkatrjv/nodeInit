@@ -1,0 +1,2 @@
+# nodeInit
+initial node training
