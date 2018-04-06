@@ -1,0 +1,26 @@
+http://www.lotuswireless.com:8080/TestingServices/InsertAnyData
+http://www.lotuswireless.com:8080/TestingServices/GetAnyData
+http://www.lotuswireless.com:8080/TestingServices/UpdateAnyData
+http://www.lotuswireless.com:8080/TestingServices/DeleteAnyData
+
+
+
+{
+	"actionmode":"InsertBroker",
+    "parameter1":"BC",
+    "parameter2":"Broker Name",
+    "parameter3":"9848012345",
+    "parameter4":"address",
+    "parameter5":"bc@bc.com,",
+    "parameter6":"admin",
+    "parameter7":"",
+    "parameter8":"",
+    "parameter9":"",
+    "parameter10":"",
+    "parameter11":"",
+    "parameter12":"",
+    "parameter13":"",
+    "parameter14":"",
+    "parameter15":""
+}
+

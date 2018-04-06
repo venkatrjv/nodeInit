@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<title>Help</title>
+
+<head>
+
+    <meta charset="utf-8">
+</head>
+
+<body>
+    {{> header}}
+    <h1>This is help page</h1>
+    {{#each comments}}
+     {{> names tagName="h2"}} 
+    {{/each}}
+    {{> footer}}
+</body>
+
+</html>
