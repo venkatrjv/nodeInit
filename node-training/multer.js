@@ -19,14 +19,14 @@ file.post('/', multer().single('file'), function (req, res, next) {
             var data = global.js_yyyy_mm_dd_hh_mm_ss();
             var path = require('path');
             var appDir = path.dirname(require.main.filename);
-            fs.writeFile(appDir + "/files/" + data + req.file.originalname, req.file.buffer, (err) => {
+            fs.writeFile(appDir + "/file/" + data + req.file.originalname, req.file.buffer, (err) => {
                 if (err) {
-                    console.log('The file has been saved!');
-                    return res.sendStatus(500).send({
+                    return res.status(500).send({
                         message: "Failed to store file",
                         error: err
                     });
                 } else {
+                    console.log('The file has been saved!');
                     return res.send(req.file);
                 }
             });
