@@ -49,7 +49,7 @@ app.use(bodyParser.urlencoded({
 // app.use(express.static(path.join(__dirname, 'public')));
 
 // ! mapping router
-let allRoutes = [];
+var allRoutes = [];
 
 //
 // ────────────────────────────────────────────────────────── AUTH VALIDATION ─────
