@@ -15,7 +15,9 @@ file.post('/', multer().single('file'), function (req, res) {
         // console.dir(req.file);
         // console.log(req.body);
         var data = global.js_yyyy_mm_dd_hh_mm_ss();
-        fs.writeFile("./files/" + data + req.file.originalname, req.file.buffer, (err) => {
+        var path = require('path');
+        var appDir = path.dirname(require.main.filename);
+        fs.writeFile(appDir + "/files/" + data + req.file.originalname, req.file.buffer, (err) => {
             if (err) {
                 console.log('The file has been saved!');
                 return res.sendStatus(500).send({
