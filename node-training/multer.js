@@ -19,7 +19,8 @@ file.post('/', multer().single('file'), function (req, res) {
             if (err) {
                 console.log('The file has been saved!');
                 return res.sendStatus(500).send({
-                    message: "Failed to store file"
+                    message: "Failed to store file",
+                    error: err
                 });
             } else {
                 return res.send(req.file);
