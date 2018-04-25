@@ -1,2 +1,2 @@
 # get update in git
-sudo git remote update
+sudo git pull origin master

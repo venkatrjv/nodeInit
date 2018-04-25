@@ -7,5 +7,5 @@ module.exports = {
     task: task,
     upload: upload,
     excel: excel,
-    about: about
+    about: about,
 }
