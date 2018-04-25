@@ -5,7 +5,7 @@ var transporter = nodemailer.createTransport({
     secure: false,
     auth: {
         user: 'rajeev.bv@lotuswireless.com',
-        pass: 'Santhosh@2'
+        pass: 'Santhosh#2'
     },
     tls: {
         rejectUnauthorized: false // don't verify certificates

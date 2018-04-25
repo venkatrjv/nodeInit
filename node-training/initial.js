@@ -3,6 +3,7 @@ var router = express.Router();
 var Task = require('../models/Task');
 
 function myMiddleware(req, res, next) {
+    // console.log('Process id : ' + process.pid);
     if (req.method === 'GET') {
         // Do some code
 

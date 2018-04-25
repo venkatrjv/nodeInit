@@ -130,15 +130,30 @@ app.listen("4222", function (err, rows) {
 //         cluster.fork();
 //     }
 
-//     cluster.on('exit', (worker, code, signal) => {
-//         // I changed this line because it affected 
-//         // syntax highlighting
-//         console.log('worker', worker.process.pid, 'died');
+//     // cluster.on('exit', (worker, code, signal) => {
+//     //     // I changed this line because it affected 
+//     //     // syntax highlighting
+//     //     console.log('worker', worker.process.pid, 'died');
+//     // });
+//     cluster.on('fork', function(worker) {
+//         // console.log('worker:' + worker.process.pid + " is forked");
+//     });
+//     cluster.on('online', function(worker) {
+//         console.log('worker:' + worker.process.pid + " is online");
+//     });
+//     cluster.on('listening', function(worker) {
+//         console.log('worker:' + worker.process.pid + " is listening");
+//     });
+//     cluster.on('disconnect', function(worker) {
+//         console.log('worker:' + worker.process.pid + " is disconnected");
+//     });
+//     cluster.on('exit', function(worker) {
+//         console.log('worker:' + worker.process.pid + " is dead");
 //     });
 // } else {
 //     // Workers can share any TCP connection
 //     // In this case it is an HTTP server
-//     console.log('I am the thread: ' + process.pid);
+//     // console.log('I am the thread: ' + process.pid);
 //     app.listen("4222", function (err, rows) {
 //         if (err) {
 //             res.json(err);

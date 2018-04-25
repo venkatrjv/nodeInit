@@ -24,6 +24,14 @@ js_yyyy_mm_dd_hh_mm_ss = () => {
     return year + "-" + month + "-" + day + " " + hour + "-" + minute + "-" + second;
 }
 
+getAppPath = () => {
+    // var appPath = __dirname.split('\\')
+    // appPath.pop();
+    // return appPath.join("\\");
+    return path.dirname(require.main.filename || process.mainModule.filename);
+}
+
 module.exports = {
-    "js_yyyy_mm_dd_hh_mm_ss": js_yyyy_mm_dd_hh_mm_ss
+    "js_yyyy_mm_dd_hh_mm_ss": js_yyyy_mm_dd_hh_mm_ss,
+    "getAppPath": getAppPath
 }

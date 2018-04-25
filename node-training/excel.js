@@ -2,8 +2,11 @@ var express = require('express');
 var router = express.Router();
 var Excel = require('exceljs');
 var Task = require('../models/Task');
+var global = require('./global');
+var path = require('path');
 
 router.get('/', function (req, res, next) {
+    var reqs = req;
     Task.getAllTasks(function (err, rows) {
         if (err) {
             res.json(err);
@@ -43,9 +46,8 @@ router.get('/', function (req, res, next) {
             worksheet.addRows(rows);
             workbook.xlsx.writeFile("./files/test.xlsx")
                 .then(function () {
-                    // done
+                    res.status(200).sendFile(global.getAppPath() + "/files/test.xlsx");
                 });
-            res.sendStatus(200);
         }
 
     });
