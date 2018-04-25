@@ -80,18 +80,13 @@ router.post('/sp', function (req, res, next) {
         if (validationSchema(req.body, schema, next))
             Task.getAllTasksSP(req.body, function (err, rows) {
                 if (err) {
-                    // res.status(500).json(err)
                     return next(err);
                 } else {
                     return getOperation(res, rows);
                 }
             });
     } catch (error) {
-        var err = {
-            "status": 400,
-            message: error
-        };
-        return next(err);
+        catchOperation(error, next);
     }
 });
 
@@ -152,6 +147,18 @@ router.put('/:id', function (req, res, next) {
     });
 });
 
+//
+// ──────────────────────────────────────────────────────────────────── CATCH ─────
+catchOperation = (error, next) => {
+    var err = {
+        "status": 400,
+        message: error
+    };
+    return next(err);
+}
+
+//
+// ─────────────────────────────────────────────────────────────── VALIDATION ─────
 validationSchema = (body, schema, next) => {
     const result = Joi.validate(body, schema);
     if (result.error) {
@@ -161,7 +168,8 @@ validationSchema = (body, schema, next) => {
     return true;
 }
 
-
+//
+// ────────────────────────────────────────────────────────────────────── GET ─────
 getOperation = (res, rows) => {
     if (rows.length === undefined) {
         return res.status(400).json({
