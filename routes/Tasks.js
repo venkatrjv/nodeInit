@@ -17,7 +17,25 @@ const taskSchema = Joi.object().keys({
     Status: Joi.alternatives().try(Joi.string(), Joi.number()).required(),
 });
 
+router.get('/hr_user', function (req, res, next) {
+    debugger;
+    try {
+        // if (validationSchema(req.body, schema, next))
+        Task.getAllHRTasks(function (err, rows) {
+            if (err) {
+                return next(err);
+            } else {
+                return getOperationSingle(res, rows);
+            }
+        });
+    } catch (error) {
+        catchOperation(error, next);
+    }
+});
+
+
 router.get('/:id?', function (req, res, next) {
+    debugger;
     console.info('Process id : ' + process.pid);
     if (req.params.id) {
 
@@ -74,6 +92,7 @@ router.get('/:id?', function (req, res, next) {
         });
     }
 });
+
 
 router.post('/sp', function (req, res, next) {
     try {
@@ -178,6 +197,19 @@ getOperation = (res, rows) => {
         });
     } else {
         return res.json(rows[0]);
+    }
+}
+
+//
+// ────────────────────────────────────────────────────────────────────── GET ─────
+getOperationSingle = (res, rows) => {
+    if (rows.length === undefined) {
+        return res.status(400).json({
+            "status": 400,
+            "message": "Requested parameter mismatch"
+        });
+    } else {
+        return res.json(rows);
     }
 }
 

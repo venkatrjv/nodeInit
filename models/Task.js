@@ -1,4 +1,5 @@
 var db = require('../connection/dbconnection'); //reference of dbconnection.js
+var dbEagle = require('../connection/dbEagleBizConn'); //reference of dbconnection.js
 
 var Task = {
 
@@ -8,6 +9,9 @@ var Task = {
     getTaskById: function (id, callback) {
 
         return db.query("select * from task where Id=?", [id], callback);
+    },
+    getAllHRTasks: function (callback) {
+        return dbEagle.query("Select u_emp_code from hr_user_info", callback);
     },
     getAllTasksSP: function (task, callback) {
         return db.query("call spGetTestData(?,?,?,?,?,?)", [task.actionMode, task.parameter1, task.parameter2, task.parameter3, task.parameter4, task.parameter5], callback)
