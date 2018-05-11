@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Task = require('../models/Task');
+var global = require('../node-training/global');
 var mail = require('../connection/mailConfig'); //reference of dbconnection.js
 const Joi = require('joi');
 const schema = Joi.object().keys({
@@ -25,11 +26,11 @@ router.get('/hr_user', function (req, res, next) {
             if (err) {
                 return next(err);
             } else {
-                return getOperationSingle(res, rows);
+                return global.getOperationSingle(res, rows);
             }
         });
     } catch (error) {
-        catchOperation(error, next);
+        global.catchOperation(error, next);
     }
 });
 
@@ -96,16 +97,16 @@ router.get('/:id?', function (req, res, next) {
 
 router.post('/sp', function (req, res, next) {
     try {
-        if (validationSchema(req.body, schema, next))
+        if (global.validationSchema(req.body, schema, next))
             Task.getAllTasksSP(req.body, function (err, rows) {
                 if (err) {
                     return next(err);
                 } else {
-                    return getOperation(res, rows);
+                    return global.getOperation(res, rows);
                 }
             });
     } catch (error) {
-        catchOperation(error, next);
+        global.catchOperation(error, next);
     }
 });
 
@@ -113,7 +114,7 @@ router.post('/', function (req, res, next) {
     var taskSch = taskSchema.keys({
         Id: Joi.alternatives().try(Joi.string(), Joi.number(), Joi.empty())
     })
-    if (validationSchema(req.body, taskSch, next)) {
+    if (global.validationSchema(req.body, taskSch, next)) {
         Task.addTask(req.body, function (err, count) {
             if (err) {
                 // res.status(500).json(err)
@@ -140,7 +141,7 @@ router.put('/update', function (req, res, next) {
     var taskSch = taskSchema.keys({
         Id: Joi.alternatives().try(Joi.string(), Joi.number()).required()
     });
-    if (validationSchema(req.body, taskSch, next)) {
+    if (global.validationSchema(req.body, taskSch, next)) {
         Task.updateTask(req.params.id, req.body, function (err, rows) {
 
             if (err) {
@@ -166,51 +167,5 @@ router.put('/:id', function (req, res, next) {
     });
 });
 
-//
-// ──────────────────────────────────────────────────────────────────── CATCH ─────
-catchOperation = (error, next) => {
-    var err = {
-        "status": 400,
-        message: error
-    };
-    return next(err);
-}
-
-//
-// ─────────────────────────────────────────────────────────────── VALIDATION ─────
-validationSchema = (body, schema, next) => {
-    const result = Joi.validate(body, schema);
-    if (result.error) {
-        result.error["status"] = 400;
-        return next(result.error);
-    }
-    return true;
-}
-
-//
-// ────────────────────────────────────────────────────────────────────── GET ─────
-getOperation = (res, rows) => {
-    if (rows.length === undefined) {
-        return res.status(400).json({
-            "status": 400,
-            "message": "Requested parameter mismatch"
-        });
-    } else {
-        return res.json(rows[0]);
-    }
-}
-
-//
-// ────────────────────────────────────────────────────────────────────── GET ─────
-getOperationSingle = (res, rows) => {
-    if (rows.length === undefined) {
-        return res.status(400).json({
-            "status": 400,
-            "message": "Requested parameter mismatch"
-        });
-    } else {
-        return res.json(rows);
-    }
-}
 
 module.exports = router;

@@ -1,3 +1,5 @@
+const Joi = require('joi');
+
 js_yyyy_mm_dd_hh_mm_ss = () => {
     now = new Date();
     year = "" + now.getFullYear();
@@ -31,7 +33,72 @@ getAppPath = () => {
     return path.dirname(require.main.filename || process.mainModule.filename);
 }
 
+//
+// ──────────────────────────────────────────────────────────────────── CATCH ─────
+catchOperation = (error, next) => {
+    var err = {
+        "status": 400,
+        message: error
+    };
+    return next(err);
+}
+
+//
+// ─────────────────────────────────────────────────────────────── VALIDATION ─────
+validationSchema = (body, schema, next) => {
+    const result = Joi.validate(body, schema);
+    if (result.error) {
+        result.error["status"] = 400;
+        return next(result.error);
+    }
+    return true;
+}
+
+//
+// ────────────────────────────────────────────────────────────────────── GET ─────
+getOperation = (res, rows) => {
+    if (rows.length === undefined) {
+        return res.status(400).json({
+            "status": 400,
+            "message": "Requested parameter mismatch"
+        });
+    } else {
+        return res.json(rows[0]);
+    }
+}
+
+//
+// ────────────────────────────────────────────────────────────────────── GET ─────
+postOperation = (res, rows) => {
+    if (rows.length === undefined) {
+        return res.status(400).json({
+            "status": 400,
+            "message": "Requested parameter mismatch"
+        });
+    } else {
+        return res.json(rows);
+    }
+}
+
+//
+// ────────────────────────────────────────────────────────────────────── GET ─────
+getOperationSingle = (res, rows) => {
+    if (rows.length === undefined) {
+        return res.status(400).json({
+            "status": 400,
+            "message": "Requested parameter mismatch"
+        });
+    } else {
+        return res.json(rows);
+    }
+}
+
 module.exports = {
     "js_yyyy_mm_dd_hh_mm_ss": js_yyyy_mm_dd_hh_mm_ss,
-    "getAppPath": getAppPath
+    "getAppPath": getAppPath,
+    "catchOperation": catchOperation,
+    "validationSchema": validationSchema,
+    "getOperation": getOperation,
+    "getOperationSingle": getOperationSingle,
+    "postOperation": postOperation
 }
